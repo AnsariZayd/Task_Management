@@ -1,6 +1,6 @@
 # TaskMaster - Task Management Application
 
-TaskMaster is a sleek, modern web-based task management application built with HTML, CSS, and JavaScript. It allows users to efficiently manage their tasks with features like adding, editing, deleting, and filtering tasks, along with due dates and sorting capabilities.
+A modern web-based task management application built with HTML, CSS, and JavaScript. It allows users to efficiently manage their tasks with features like adding, editing, deleting, and filtering tasks, along with due dates and sorting capabilities.
 
 ## Features
 
@@ -62,3 +62,4 @@ TaskMaster is a sleek, modern web-based task management application built with H
 - **Local Storage**: For persistent data storage.
 
 ## Visit the website on :
+https://ansarizayd.github.io/Task_Management/

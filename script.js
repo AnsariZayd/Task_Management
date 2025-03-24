@@ -19,6 +19,10 @@ class TaskManager {
 
     // Initialize the application
     init() {
+        // Set the minimum date for the due date input to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('taskDueDate').setAttribute('min', today);
+
         this.renderTasks();
         this.setupEventListeners();
     }
@@ -66,6 +70,16 @@ class TaskManager {
             task.name = newName.trim();
             task.description = newDesc ? newDesc.trim() : '';
             task.dueDate = newDueDate ? newDueDate : null;
+
+            // Validate that the new due date is not in the past
+            if (task.dueDate) {
+                const today = new Date().toISOString().split('T')[0];
+                if (task.dueDate < today) {
+                    alert('Due date cannot be in the past! Please select a current or future date.');
+                    return;
+                }
+            }
+
             this.saveTasks();
             this.renderTasks();
         }

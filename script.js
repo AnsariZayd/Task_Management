@@ -1,3 +1,4 @@
+// Task class to represent individual tasks
 class Task {
     constructor(id, name, description, dueDate, status = 'pending') {
         this.id = id;
@@ -8,51 +9,59 @@ class Task {
     }
 }
 
+// TaskManager class to handle all task-related operations
 class TaskManager {
     constructor() {
+        // Load tasks from local storage or initialize empty array
         this.tasks = JSON.parse(localStorage.getItem('tasks')) || [];
         this.init();
     }
 
+    // Initialize the application
     init() {
         this.renderTasks();
         this.setupEventListeners();
     }
 
+    // Set up event listeners for user interactions
     setupEventListeners() {
         document.getElementById('addTask').addEventListener('click', () => this.addTask());
-        document.getElementById('statusFilter').addEventListener('change', (e) => this.renderTasks());
-        document.getElementById('sortFilter').addEventListener('change', (e) => this.renderTasks());
-        document.getElementById('searchInput').addEventListener('input', (e) => this.renderTasks());
+        document.getElementById('statusFilter').addEventListener('change', () => this.renderTasks());
+        document.getElementById('sortFilter').addEventListener('change', () => this.renderTasks());
     }
 
+    // Add a new task
     addTask() {
         const name = document.getElementById('taskName').value.trim();
         const desc = document.getElementById('taskDesc').value.trim();
         const dueDate = document.getElementById('taskDueDate').value;
 
+        // Validate task name
         if (!name) {
             alert('Task name is required!');
             return;
         }
 
+        // Create and add new task
         const task = new Task(Date.now(), name, desc, dueDate || null);
         this.tasks.push(task);
         this.saveTasks();
         this.renderTasks();
 
-        
+        // Clear input fields
         document.getElementById('taskName').value = '';
         document.getElementById('taskDesc').value = '';
         document.getElementById('taskDueDate').value = '';
     }
 
+    // Edit an existing task
     editTask(id) {
         const task = this.tasks.find(t => t.id === id);
         const newName = prompt('Enter new task name:', task.name);
         const newDesc = prompt('Enter new description:', task.description);
         const newDueDate = prompt('Enter new due date (YYYY-MM-DD):', task.dueDate || '');
 
+        // Update task if new name is provided and valid
         if (newName && newName.trim()) {
             task.name = newName.trim();
             task.description = newDesc ? newDesc.trim() : '';
@@ -62,6 +71,7 @@ class TaskManager {
         }
     }
 
+    // Delete a task with confirmation
     deleteTask(id) {
         if (confirm('Are you sure you want to delete this task?')) {
             this.tasks = this.tasks.filter(t => t.id !== id);
@@ -70,6 +80,7 @@ class TaskManager {
         }
     }
 
+    // Toggle task status between pending and completed
     toggleStatus(id) {
         const task = this.tasks.find(t => t.id === id);
         task.status = task.status === 'pending' ? 'completed' : 'pending';
@@ -77,26 +88,25 @@ class TaskManager {
         this.renderTasks();
     }
 
+    // Save tasks to local storage
     saveTasks() {
         localStorage.setItem('tasks', JSON.stringify(this.tasks));
     }
 
+    // Render tasks to the DOM
     renderTasks() {
         const taskList = document.getElementById('taskList');
         taskList.innerHTML = '';
         
         const statusFilter = document.getElementById('statusFilter').value;
         const sortFilter = document.getElementById('sortFilter').value;
-        const searchQuery = document.getElementById('searchInput').value.toLowerCase();
 
-        // Filter tasks
+        // Filter tasks by status
         let filteredTasks = this.tasks.filter(task => 
-            (statusFilter === 'all' || task.status === statusFilter) &&
-            (task.name.toLowerCase().includes(searchQuery) || 
-             task.description.toLowerCase().includes(searchQuery))
+            statusFilter === 'all' || task.status === statusFilter
         );
 
-        // Sort tasks
+        // Sort tasks based on selected criteria
         filteredTasks.sort((a, b) => {
             if (sortFilter === 'date-asc') {
                 return (a.dueDate || '9999-12-31') > (b.dueDate || '9999-12-31') ? 1 : -1;
@@ -107,6 +117,7 @@ class TaskManager {
             }
         });
 
+        // Create and append task items
         filteredTasks.forEach(task => {
             const li = document.createElement('li');
             li.className = `task-item ${task.status}`;
@@ -121,6 +132,7 @@ class TaskManager {
                 </div>
             `;
 
+            // Add event listeners to task action buttons
             li.querySelector('.edit-btn').addEventListener('click', () => this.editTask(task.id));
             li.querySelector('.delete-btn').addEventListener('click', () => this.deleteTask(task.id));
             li.querySelector('button:last-child').addEventListener('click', () => this.toggleStatus(task.id));
@@ -130,5 +142,5 @@ class TaskManager {
     }
 }
 
-// Initialize the app
+// Initialize the TaskManager
 const taskManager = new TaskManager();

@@ -5,10 +5,10 @@
     padding: 0;
 }
 
-/* Body styling with gradient background */
+/* Body styling with a new, more appealing gradient background */
 body {
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(45deg, #1e3c72, #2a5298);
+    background: linear-gradient(135deg, #6b48ff, #00ddeb); /* Updated gradient: Purple to Cyan */
     min-height: 100vh;
     padding: 40px 20px;
     overflow-x: hidden;
@@ -37,7 +37,7 @@ h1 {
     color: #ffffff;
     font-size: 2.8em;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53); /* Changed to match new theme */
     padding: 15px;
     border-radius: 15px;
     margin-bottom: 20px;
@@ -68,7 +68,7 @@ input, textarea {
 
 input:focus, textarea:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
+    box-shadow: 0 0 10px rgba(107, 72, 255, 0.5); /* Adjusted to match new background */
 }
 
 /* Button styling */
